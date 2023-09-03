@@ -1,15 +1,17 @@
-import Category from './components/Categories.js'
+import Home from './components/Categories.js'
+import { Categories } from './components/Categories.js';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
-import { Navbar } from './components/Navbar.js';
+import { NavbarComp } from './components/Navbar.js';
 
 function App() {
   return (
     <div className="App">
      <Router>
-      <Navbar/>
+      <NavbarComp/>
       <Routes>
-        <Route path="/" element={<Category />}/>
+        <Route path="/" element={<Home />}/>
         <Route path="/addproduct" />
+        <Route path="/categories/:categoryId" element={<Categories/>}/>
       </Routes>
      </Router>
     </div>

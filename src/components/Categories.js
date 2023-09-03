@@ -1,11 +1,12 @@
 import Axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function Category(){
+export default function Home(){
     function getUpperCategories(categories){
         const _categories = []
         categories.forEach(category=> {
@@ -19,11 +20,8 @@ export default function Category(){
     const [category,setCategory] = useState([]);
     useEffect(()=>{
         Axios.get('http://localhost:8080/api/categories').then((res)=>{
-            const data =  res.data.filter( a=> a.subCategories.length === 0); //bu product eklerken kategori seçmek için
+            const data =  res.data.filter( a=> a.subCategories.length === 0); //product eklerken kullanılcak
             setCategory(getUpperCategories(res.data))
-            // console.log(res.data)
-            //üzerlerinde recursive foreach çağır bir fonksiyonu iç içe sokarak. Yukarıda bir array olsun fonksiyon dışında.
-            // [] ilk array'in içine gir.
         })
     },[])
     
@@ -31,22 +29,21 @@ export default function Category(){
         <Container>
             <Row>
         {category && category.map((data)=>{
-            // return <h1 style={{display: "inline"}}>{data.name}</h1>
-            return <Cards {...data}/>
+            return <CategoryCards {...data}/>
         })}
             </Row>
         </Container>
     );
 }
 
-function Cards(props){
-    const bingo = ()=>{
-        alert('Erik Tech') //burada link ile alt kategorilere gidecek farklı bir componente de.
+function CategoryCards(props){
+    const navigate = useNavigate();
+    const bingo = (id) =>{
+        navigate(`/categories/${id}`)
     }
-
     return(
         <Col>
-            <Card onClick={bingo}> 
+            <Card onClick={()=>bingo(props.id)}> 
                 <Card.Body>
                     <Card.Title>
                          <div>{props.name}</div>
@@ -55,4 +52,60 @@ function Cards(props){
             </Card>
         </Col>
     );
+}
+
+function ProductCards(props){
+    const navigate = useNavigate();
+    const bingo = (id) => {
+        navigate(`/products/${id}`)
+    }
+
+    return(
+        <Col>
+            <Card onClick={()=>bingo(props.id)}> 
+                <Card.Body>
+                    <Card.Title>
+                         <div>{props.name}</div>
+                         <div>{props.details}</div>
+                    </Card.Title>
+                </Card.Body>
+            </Card>
+        </Col>
+    );
+}
+
+export function Categories(){
+    const [subCategory,setCategory] = useState([]);
+    const params = useParams();
+    useEffect(()=>{
+        Axios.get(`http://localhost:8080/api/categories/${params.categoryId}`).then((res)=>{
+            setCategory(res.data.subCategories)
+            console.log(res.data.subCategories)
+        })
+    })   
+    //subcategory'si boşsa products componentine yönlendir.
+    if(subCategory.length === 0){
+        console.log("Bingo")
+        return(
+            // <Container>
+            //     <Row>
+            //         {subCategory && subCategory.map((data)=>{
+            //         return <ProductCards {...data}/>
+            //         })}
+            //     </Row>
+            // </Container>
+            <h1>Batuhan</h1>
+        );
+    }else{
+        return (
+            <Container>
+                <Row>
+                    {subCategory && subCategory.map((data)=>{
+                    return <CategoryCards {...data}/>
+                    })}
+                </Row>
+            </Container>
+    );
+    }
+    
 }
