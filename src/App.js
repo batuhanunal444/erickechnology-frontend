@@ -4,6 +4,7 @@ import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import { NavbarComp } from './components/Navbar.js';
 import AddCategory from './components/AddCategory.js';
 import AddProduct from './components/AddProduct.js';
+import { ProductDetail } from './components/Categories.js';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/addproduct" element={<AddProduct/>}/>
         <Route path="/categories/:categoryId" element={<Categories/>}/>
         <Route path="/addcategory" element={<AddCategory/>}/>
+        <Route path="products/:productId" element={<ProductDetail/>}/>
       </Routes>
      </Router>
     </div>

@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Home(){
     function getUpperCategories(categories){
@@ -84,7 +85,6 @@ export function Categories(){
             setProducts(res.data.products)
         })
     })   
-    //subcategory'si boşsa products componentine yönlendir.
     if(subCategory.length === 0){
         return(
             <Container>
@@ -94,7 +94,6 @@ export function Categories(){
                     })}
                 </Row>
             </Container>
-            // <h1>Batuhan</h1>
         );
     }else{
         return (
@@ -107,5 +106,30 @@ export function Categories(){
             </Container>
     );
     }
-    
+}
+
+export function ProductDetail(){
+    const params = useParams();
+    const [product, setProduct] = useState([])
+    useEffect(()=>{
+        axios.get(`http://localhost:8080/api/products/${params.productId}`).then(res=>{
+            setProduct(res.data)
+        })
+    })
+    return(
+        <Container>
+            <Row className="justify-content-md-center">
+            <Card  style={{backgroundColor:"cyan", height: 300, width: 300}}> 
+            <Card.Body>
+                <Card.Title>
+                     <div>{product.name}</div>
+                </Card.Title>
+                <Card.Text>
+                    <div>{product.details}</div>
+                </Card.Text>
+            </Card.Body>
+        </Card>
+        </Row>
+        </Container>
+    ); 
 }
