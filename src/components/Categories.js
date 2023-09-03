@@ -62,12 +62,14 @@ function ProductCards(props){
 
     return(
         <Col>
-            <Card onClick={()=>bingo(props.id)}> 
+            <Card onClick={()=>bingo(props.id)} style={{backgroundColor:"cyan"}}> 
                 <Card.Body>
                     <Card.Title>
                          <div>{props.name}</div>
-                         <div>{props.details}</div>
                     </Card.Title>
+                    <Card.Text>
+                        <div>{props.details}</div>
+                    </Card.Text>
                 </Card.Body>
             </Card>
         </Col>
