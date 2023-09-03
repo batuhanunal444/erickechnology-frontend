@@ -76,10 +76,12 @@ function ProductCards(props){
 
 export function Categories(){
     const [subCategory,setCategory] = useState([]);
+    const [products, setProducts] = useState([]);
     const params = useParams();
     useEffect(()=>{
         Axios.get(`http://localhost:8080/api/categories/${params.categoryId}`).then((res)=>{
             setCategory(res.data.subCategories)
+            setProducts(res.data.products)
             console.log(res.data.subCategories)
         })
     })   
@@ -87,14 +89,14 @@ export function Categories(){
     if(subCategory.length === 0){
         console.log("Bingo")
         return(
-            // <Container>
-            //     <Row>
-            //         {subCategory && subCategory.map((data)=>{
-            //         return <ProductCards {...data}/>
-            //         })}
-            //     </Row>
-            // </Container>
-            <h1>Batuhan</h1>
+            <Container>
+                <Row>
+                    {products && products.map((data)=>{
+                    return <ProductCards {...data}/>
+                    })}
+                </Row>
+            </Container>
+            // <h1>Batuhan</h1>
         );
     }else{
         return (
