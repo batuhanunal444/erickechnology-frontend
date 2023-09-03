@@ -3,6 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form'
 import Container from "react-bootstrap/esm/Container";
+import Row from 'react-bootstrap/Row'
+import Button from "react-bootstrap/Button"
+import Col from 'react-bootstrap/Col'
 export default function AddProduct(){
     const [subCategories, setSubCategories] = useState([])
     const {register, handleSubmit} = useForm();
@@ -29,6 +32,8 @@ export default function AddProduct(){
     return (
         // <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
+        <Row className="justify-content-md-center">
+            <Col md="8">
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group>
             <Form.Label>Product Name</Form.Label>
@@ -42,9 +47,12 @@ export default function AddProduct(){
                     return  <option value={subCategory.id}>{subCategory.name}</option>
                 })}
             </Form.Select>
-            <input type="submit"/>
+            <br/>
+            <Button type="submit">Add Product</Button>
             </Form.Group>
         </Form>
+        </Col>
+        </Row>
         </Container>
     );
 }
