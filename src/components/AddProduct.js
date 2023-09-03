@@ -23,14 +23,12 @@ export default function AddProduct(){
                 id : data.categoryId
             }
         }
-        console.log(payload)
         axios.post('http://localhost:8080/api/products',
         payload);
         
     }
 
     return (
-        // <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
         <Row className="justify-content-md-center">
             <Col md="8">
@@ -40,7 +38,7 @@ export default function AddProduct(){
              <Form.Control type="text" placeholder="Product Name" {...register("productName")}/>
              <Form.Label>Product Detail</Form.Label>
              <Form.Control type="text" placeholder="Product Detail" {...register("productDetail")}/>
-            <label for="cars">Choose a category:</label>
+            <label>Choose a category:</label>
             <Form.Select {...register("categoryId")}>
                 <option value="" selected disabled hidden>Choose here</option>
                 {subCategories && subCategories.map(subCategory=>{

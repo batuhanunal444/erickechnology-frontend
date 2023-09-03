@@ -10,11 +10,9 @@ export default function Home(){
     function getUpperCategories(categories){
         const _categories = []
         categories.forEach(category=> {
-            // console.log(category)
-            let a = categories.find(_category => _category.subCategories.find(subCategory => category.name === subCategory.name))
-            a && _categories.push(a)
+            let is_sub = categories.find(_category => _category.subCategories.find(subCategory => category.name === subCategory.name))
+            !is_sub && _categories.push(category)
         })
-        console.log(_categories)
         return(_categories)
     }
     const [category,setCategory] = useState([]);
@@ -84,12 +82,10 @@ export function Categories(){
         Axios.get(`http://localhost:8080/api/categories/${params.categoryId}`).then((res)=>{
             setCategory(res.data.subCategories)
             setProducts(res.data.products)
-            console.log(res.data.subCategories)
         })
     })   
     //subcategory'si boşsa products componentine yönlendir.
     if(subCategory.length === 0){
-        console.log("Bingo")
         return(
             <Container>
                 <Row>
